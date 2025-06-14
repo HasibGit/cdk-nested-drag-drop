@@ -91,6 +91,18 @@ export class App implements OnInit {
     this.initializeDraggableAreaIds();
   }
 
+  get draggableAreasForMenuItems(): string[] {
+    return ['root', ...this.menuItemGroups];
+  }
+
+  get draggableAreasForKpiGroups(): string[] {
+    return this.menuItems;
+  }
+
+  get draggableAreasForKpis(): string[] {
+    return [...this.kpiGroups, ...this.menuItems];
+  }
+
   initializeDraggableAreaIds() {
     this.data.forEach((item) => {
       if (item.type == 'MENU_ITEM_GROUP') {

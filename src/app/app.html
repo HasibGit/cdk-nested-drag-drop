@@ -5,7 +5,8 @@
   cdkDropList
   [cdkDropListData]="data"
   (cdkDropListDropped)="drop($event)"
-  id="root"
+  [cdkDropListConnectedTo]="draggableAreasForMenuItems"
+  [id]="'root'"
 >
   @for (item of data; track $index) {
     @if (item?.type == "MENU_ITEM") {
@@ -51,6 +52,7 @@
         <div
           cdkDropList
           [cdkDropListData]="item.value"
+          [cdkDropListConnectedTo]="draggableAreasForMenuItems"
           (cdkDropListDropped)="drop($event)"
           [id]="item.name"
         >
