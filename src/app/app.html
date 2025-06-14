@@ -1,9 +1,15 @@
-<h2 style="text-align: center">Angular CDK Nested Drag n Drop</h2>
+<h2 style="text-align: center">Angular CDK Nested Drag & Drop</h2>
 
-<div class="container">
+<div
+  class="container"
+  cdkDropList
+  [cdkDropListData]="data"
+  (cdkDropListDropped)="drop($event)"
+  id="root"
+>
   @for (item of data; track $index) {
     @if (item?.type == "MENU_ITEM") {
-      <div class="menu-item">
+      <div class="menu-item" cdkDrag>
         <p>{{ item.name }}</p>
 
         <div
@@ -38,30 +44,42 @@
         </div>
       </div>
     } @else {
-      <div class="menu-item-group">
+      <div class="menu-item-group" cdkDrag>
         <p>{{ item.name }}</p>
         @for (menuItem of item.value; track $index) {
           @if (typeof menuItem !== 'string') {
             <div class="menu-item">
               <p>{{ menuItem.name }}</p>
-              @for (menuItemData of menuItem.value; track $index) {
-                @if (
-                  typeof menuItemData !== 'string' && menuItemData?.type == 'KPI_GROUP'
-                ) {
-                  <div class="kpi-group">
-                    <p>{{ menuItemData.name }}</p>
-                    @for (kpi of menuItemData.value; track $index) {
-                      <div class="kpi">
-                        <p>{{ kpi }}</p>
+              <div
+                cdkDropList
+                [cdkDropListData]="menuItem.value"
+                (cdkDropListDropped)="drop($event)"
+              >
+                @for (menuItemData of menuItem.value; track $index) {
+                  @if (
+                    typeof menuItemData !== 'string' && menuItemData?.type == 'KPI_GROUP'
+                  ) {
+                    <div class="kpi-group" cdkDrag>
+                      <p>{{ menuItemData.name }}</p>
+                      <div
+                        cdkDropList
+                        [cdkDropListData]="menuItemData.value"
+                        (cdkDropListDropped)="drop($event)"
+                      >
+                        @for (kpi of menuItemData.value; track $index) {
+                          <div class="kpi" cdkDrag>
+                            <p>{{ kpi }}</p>
+                          </div>
+                        }
                       </div>
-                    }
-                  </div>
-                } @else {
-                  <div class="kpi">
-                    <p>{{ menuItemData }}</p>
-                  </div>
+                    </div>
+                  } @else {
+                    <div class="kpi" cdkDrag>
+                      <p>{{ menuItemData }}</p>
+                    </div>
+                  }
                 }
-              }
+              </div>
             </div>
           }
         }
