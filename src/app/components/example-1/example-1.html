@@ -1,41 +1,67 @@
-<!-- example-1.html -->
 <div class="container">
   <h1>{{ title }}</h1>
 
   <div class="menu-container" [nxtSortablejs]="data" [config]="normalOptions">
-    <div class="menu-item" *ngFor="let item of data">
+    <div class="menu-item" *ngFor="let item of data; let i = index">
       <!-- Menu Item Group -->
       <div *ngIf="item.type === 'MENU_ITEM_GROUP'" class="menu-group">
-        <div class="menu-group-header">
+        <div
+          class="menu-group-header"
+          (click)="toggleExpand(generateId('mig', i))"
+        >
           <h3>{{ item.name }}</h3>
+          <span class="toggle-icon">
+            {{ isExpanded(generateId("mig", i)) ? "▼" : "▶" }}
+          </span>
         </div>
 
         <div
           class="menu-group-content"
           [nxtSortablejs]="item.value"
           [config]="normalOptions"
+          *ngIf="isExpanded(generateId('mig', i))"
         >
-          <div *ngFor="let menuItem of item.value" class="menu-single-item">
-            <div class="menu-item-header">
+          <div
+            *ngFor="let menuItem of item.value; let j = index"
+            class="menu-single-item"
+          >
+            <div
+              class="menu-item-header"
+              (click)="toggleExpand(generateId('mi', i, j))"
+            >
               <h4>{{ menuItem.name }}</h4>
+              <span class="toggle-icon">
+                {{ isExpanded(generateId("mi", i, j)) ? "▼" : "▶" }}
+              </span>
             </div>
 
             <div
               class="kpi-container"
               [nxtSortablejs]="menuItem.value"
               [config]="normalOptions"
+              *ngIf="isExpanded(generateId('mi', i, j))"
             >
-              <div *ngFor="let kpiItem of menuItem.value" class="kpi-item">
+              <div
+                *ngFor="let kpiItem of menuItem.value; let k = index"
+                class="kpi-item"
+              >
                 <!-- KPI Group -->
                 <div *ngIf="kpiItem.type === 'KPI_GROUP'" class="kpi-group">
-                  <div class="kpi-group-header">
+                  <div
+                    class="kpi-group-header"
+                    (click)="toggleExpand(generateId('kg', i, j, k))"
+                  >
                     <h5>{{ kpiItem.name }}</h5>
+                    <span class="toggle-icon">
+                      {{ isExpanded(generateId("kg", i, j, k)) ? "▼" : "▶" }}
+                    </span>
                   </div>
 
                   <div
                     class="kpi-group-content"
                     [nxtSortablejs]="kpiItem.value"
                     [config]="normalOptions"
+                    *ngIf="isExpanded(generateId('kg', i, j, k))"
                   >
                     <div
                       *ngFor="let kpi of kpiItem.value"
@@ -58,26 +84,43 @@
 
       <!-- Single Menu Item -->
       <div *ngIf="item.type === 'MENU_ITEM'" class="menu-single-item">
-        <div class="menu-item-header">
+        <div
+          class="menu-item-header"
+          (click)="toggleExpand(generateId('mi', i))"
+        >
           <h3>{{ item.name }}</h3>
+          <span class="toggle-icon">
+            {{ isExpanded(generateId("mi", i)) ? "▼" : "▶" }}
+          </span>
         </div>
 
         <div
           class="kpi-container"
           [nxtSortablejs]="item.value"
           [config]="normalOptions"
+          *ngIf="isExpanded(generateId('mi', i))"
         >
-          <div *ngFor="let kpiItem of item.value" class="kpi-item">
+          <div
+            *ngFor="let kpiItem of item.value; let k = index"
+            class="kpi-item"
+          >
             <!-- KPI Group -->
             <div *ngIf="kpiItem.type === 'KPI_GROUP'" class="kpi-group">
-              <div class="kpi-group-header">
+              <div
+                class="kpi-group-header"
+                (click)="toggleExpand(generateId('kg', i, k))"
+              >
                 <h5>{{ kpiItem.name }}</h5>
+                <span class="toggle-icon">
+                  {{ isExpanded(generateId("kg", i, k)) ? "▼" : "▶" }}
+                </span>
               </div>
 
               <div
                 class="kpi-group-content"
                 [nxtSortablejs]="kpiItem.value"
                 [config]="normalOptions"
+                *ngIf="isExpanded(generateId('kg', i, k))"
               >
                 <div *ngFor="let kpi of kpiItem.value" class="kpi-single-item">
                   {{ kpi.name }}

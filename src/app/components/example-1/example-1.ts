@@ -111,6 +111,20 @@ export class Example1 {
     },
   ];
 
+  expandedStates = new Map<string, boolean>();
+
+  toggleExpand(id: string): void {
+    this.expandedStates.set(id, !this.isExpanded(id));
+  }
+
+  isExpanded(id: string): boolean {
+    return this.expandedStates.get(id) || false;
+  }
+
+  generateId(...args: (string | number)[]): string {
+    return args.join('-');
+  }
+
   normalOptions: Options = {
     group: 'nested',
   };
