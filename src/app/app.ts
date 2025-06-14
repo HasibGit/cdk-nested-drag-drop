@@ -122,6 +122,7 @@ export class App implements OnInit {
         });
       } else if (item.type == 'MENU_ITEM') {
         const menuItem = item;
+        this.menuItems.push(menuItem.name);
 
         menuItem.value.forEach((widget) => {
           if (typeof widget != 'string' && widget.type == 'KPI_GROUP') {
@@ -140,7 +141,6 @@ export class App implements OnInit {
         event.currentIndex,
       );
     } else {
-      console.log(event);
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,

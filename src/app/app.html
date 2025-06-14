@@ -16,6 +16,7 @@
         <div
           cdkDropList
           [cdkDropListData]="item.value"
+          [cdkDropListConnectedTo]="draggableAreasForKpis"
           (cdkDropListDropped)="drop($event)"
           [id]="item.name"
         >
@@ -28,6 +29,7 @@
                 <div
                   cdkDropList
                   [cdkDropListData]="menuItemData.value"
+                  [cdkDropListConnectedTo]="draggableAreasForKpis"
                   (cdkDropListDropped)="drop($event)"
                   [id]="menuItemData.name"
                 >
@@ -63,6 +65,7 @@
                 <div
                   cdkDropList
                   [cdkDropListData]="menuItem.value"
+                  [cdkDropListConnectedTo]="draggableAreasForKpis"
                   (cdkDropListDropped)="drop($event)"
                   [id]="menuItem.name"
                 >
@@ -75,6 +78,7 @@
                         <div
                           cdkDropList
                           [cdkDropListData]="menuItemData.value"
+                          [cdkDropListConnectedTo]="draggableAreasForKpiGroups"
                           (cdkDropListDropped)="drop($event)"
                           [id]="menuItemData.name"
                         >
