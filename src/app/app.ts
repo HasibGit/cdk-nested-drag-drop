@@ -1,8 +1,16 @@
+import {
+  CdkDragDrop,
+  moveItemInArray,
+  transferArrayItem,
+} from '@angular/cdk/drag-drop';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { CommonModule } from '@angular/common';
+
 import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
-  imports: [],
+  imports: [DragDropModule, CommonModule],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
@@ -44,7 +52,7 @@ export class App {
         {
           name: 'KPI Group 2',
           type: 'KPI_GROUP',
-          value: ['chart 10, chart 11', 'chart 12'],
+          value: ['chart 10', 'chart 11', 'chart 12'],
         },
       ],
     },
@@ -74,4 +82,26 @@ export class App {
       ],
     },
   ];
+
+  drop(event: CdkDragDrop<any>): void {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex,
+      );
+    } else {
+      console.log(event);
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex,
+      );
+    }
+  }
+
+  isKpiGroup(item: any): boolean {
+    return typeof item !== 'string' && item?.type === 'KPI_GROUP';
+  }
 }
