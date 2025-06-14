@@ -6,7 +6,7 @@ import {
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
 
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +14,7 @@ import { Component } from '@angular/core';
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
-export class App {
+export class App implements OnInit {
   protected title = 'cdk-nested-drag-drop';
 
   data = [
@@ -82,6 +82,43 @@ export class App {
       ],
     },
   ];
+
+  menuItemGroups: string[] = [];
+  menuItems: string[] = [];
+  kpiGroups: string[] = [];
+
+  ngOnInit(): void {
+    this.initializeDraggableAreaIds();
+  }
+
+  initializeDraggableAreaIds() {
+    this.data.forEach((item) => {
+      if (item.type == 'MENU_ITEM_GROUP') {
+        this.menuItemGroups.push(item.name);
+        const menuItemGroup = item;
+
+        menuItemGroup.value.forEach((menuItem) => {
+          if (typeof menuItem != 'string') {
+            this.menuItems.push(menuItem.name);
+
+            menuItem.value.forEach((widget) => {
+              if (typeof widget != 'string' && widget.type == 'KPI_GROUP') {
+                this.kpiGroups.push(widget.name);
+              }
+            });
+          }
+        });
+      } else if (item.type == 'MENU_ITEM') {
+        const menuItem = item;
+
+        menuItem.value.forEach((widget) => {
+          if (typeof widget != 'string' && widget.type == 'KPI_GROUP') {
+            this.kpiGroups.push(widget.name);
+          }
+        });
+      }
+    });
+  }
 
   drop(event: CdkDragDrop<any>): void {
     if (event.previousContainer === event.container) {
