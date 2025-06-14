@@ -1,20 +1,17 @@
-import {
-  CdkDragDrop,
-  moveItemInArray,
-  transferArrayItem,
-} from '@angular/cdk/drag-drop';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
 
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { SortablejsModule } from 'nxt-sortablejs';
+import { Options } from 'sortablejs';
 
 @Component({
   selector: 'app-example-1',
-  imports: [DragDropModule, CommonModule],
+  imports: [DragDropModule, CommonModule, SortablejsModule],
   templateUrl: './example-1.html',
   styleUrl: './example-1.scss',
 })
-export class Example1 implements OnInit {
+export class Example1 {
   protected title = 'cdk-nested-drag-drop';
 
   data = [
@@ -83,74 +80,18 @@ export class Example1 implements OnInit {
     },
   ];
 
-  menuItemGroups: string[] = [];
-  menuItems: string[] = [];
-  kpiGroups: string[] = [];
+  normalOptions: Options = {
+    group: 'nested', // same group name enables cross-list dragging
+    animation: 150,
+    fallbackOnBody: true,
+    swapThreshold: 0.65,
+  };
 
-  ngOnInit(): void {
-    this.initializeDraggableAreaIds();
+  isArray(item: any): boolean {
+    return Array.isArray(item);
   }
 
-  get draggableAreasForMenuItems(): string[] {
-    return ['root', ...this.menuItemGroups];
-  }
-
-  get draggableAreasForKpiGroups(): string[] {
-    return this.menuItems;
-  }
-
-  get draggableAreasForKpis(): string[] {
-    return [...this.kpiGroups, ...this.menuItems];
-  }
-
-  initializeDraggableAreaIds() {
-    this.data.forEach((item) => {
-      if (item.type == 'MENU_ITEM_GROUP') {
-        this.menuItemGroups.push(item.name);
-        const menuItemGroup = item;
-
-        menuItemGroup.value.forEach((menuItem) => {
-          if (typeof menuItem != 'string') {
-            this.menuItems.push(menuItem.name);
-
-            menuItem.value.forEach((widget) => {
-              if (typeof widget != 'string' && widget.type == 'KPI_GROUP') {
-                this.kpiGroups.push(widget.name);
-              }
-            });
-          }
-        });
-      } else if (item.type == 'MENU_ITEM') {
-        const menuItem = item;
-        this.menuItems.push(menuItem.name);
-
-        menuItem.value.forEach((widget) => {
-          if (typeof widget != 'string' && widget.type == 'KPI_GROUP') {
-            this.kpiGroups.push(widget.name);
-          }
-        });
-      }
-    });
-  }
-
-  drop(event: CdkDragDrop<any>): void {
-    if (event.previousContainer === event.container) {
-      moveItemInArray(
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex,
-      );
-    } else {
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex,
-      );
-    }
-  }
-
-  isKpiGroup(item: any): boolean {
-    return typeof item !== 'string' && item?.type === 'KPI_GROUP';
+  toArray(value: any): string[] {
+    return Array.isArray(value) ? value : [value];
   }
 }
