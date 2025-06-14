@@ -24,10 +24,26 @@ import { Options } from 'sortablejs';
 export class Example2 {
   todo = [
     'Get to work',
-    ['Get up', 'Brush teeth', 'Take a shower', 'Check e-mail', 'Walk dog'],
-    ['Preare for work', 'Drive to office', 'Üark car'],
+    [
+      'Morning routine',
+      [
+        'Get up',
+        'Brush teeth',
+        ['Wash face', 'Use mouthwash'],
+        'Take a shower',
+      ],
+      'Check e-mail',
+      'Walk dog',
+    ],
+    [
+      'Commute',
+      ['Prepare for work', 'Gather items', ['Laptop', 'Keys', 'Wallet']],
+      'Drive to office',
+      'Park car',
+    ],
     'Pick up groceries',
     'Go home',
+    'Evening routine',
     'Fall asleep',
   ];
 
@@ -61,7 +77,7 @@ export class Example2 {
     return Array.isArray(item);
   }
 
-  toArray(value: string | string[]): string[] {
+  toArray(value: any): string[] {
     return Array.isArray(value) ? value : [value];
   }
 

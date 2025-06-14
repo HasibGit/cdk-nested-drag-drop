@@ -17,7 +17,60 @@
                   class="example-box"
                   *ngFor="let innerItem of toArray(item)"
                 >
-                  {{ innerItem }}
+                  <div *ngIf="!isArray(innerItem); else innerArrayView">
+                    {{ innerItem }}
+                  </div>
+                  <ng-template #innerArrayView>
+                    <div class="example-container">
+                      <div
+                        class="example-list"
+                        [nxtSortablejs]="
+                          isArray(innerItem) ? toArray(innerItem) : []
+                        "
+                        [config]="normalOptions"
+                      >
+                        <ng-container *ngIf="isArray(innerItem)">
+                          <div
+                            class="example-box"
+                            *ngFor="let deeperItem of toArray(innerItem)"
+                          >
+                            <div
+                              *ngIf="
+                                !isArray(deeperItem);
+                                else deepestArrayView
+                              "
+                            >
+                              {{ deeperItem }}
+                            </div>
+                            <ng-template #deepestArrayView>
+                              <div class="example-container">
+                                <div
+                                  class="example-list"
+                                  [nxtSortablejs]="
+                                    isArray(deeperItem)
+                                      ? toArray(deeperItem)
+                                      : []
+                                  "
+                                  [config]="normalOptions"
+                                >
+                                  <ng-container *ngIf="isArray(deeperItem)">
+                                    <div
+                                      class="example-box"
+                                      *ngFor="
+                                        let deepestItem of toArray(deeperItem)
+                                      "
+                                    >
+                                      {{ deepestItem }}
+                                    </div>
+                                  </ng-container>
+                                </div>
+                              </div>
+                            </ng-template>
+                          </div>
+                        </ng-container>
+                      </div>
+                    </div>
+                  </ng-template>
                 </div>
               </ng-container>
             </div>
