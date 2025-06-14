@@ -16,6 +16,7 @@
           cdkDropList
           [cdkDropListData]="item.value"
           (cdkDropListDropped)="drop($event)"
+          [id]="item.name"
         >
           @for (menuItemData of item.value; track $index) {
             @if (
@@ -27,6 +28,7 @@
                   cdkDropList
                   [cdkDropListData]="menuItemData.value"
                   (cdkDropListDropped)="drop($event)"
+                  [id]="menuItemData.name"
                 >
                   @for (kpi of menuItemData.value; track $index) {
                     <div class="kpi" cdkDrag>
@@ -46,43 +48,52 @@
     } @else {
       <div class="menu-item-group" cdkDrag>
         <p>{{ item.name }}</p>
-        @for (menuItem of item.value; track $index) {
-          @if (typeof menuItem !== 'string') {
-            <div class="menu-item">
-              <p>{{ menuItem.name }}</p>
-              <div
-                cdkDropList
-                [cdkDropListData]="menuItem.value"
-                (cdkDropListDropped)="drop($event)"
-              >
-                @for (menuItemData of menuItem.value; track $index) {
-                  @if (
-                    typeof menuItemData !== 'string' && menuItemData?.type == 'KPI_GROUP'
-                  ) {
-                    <div class="kpi-group" cdkDrag>
-                      <p>{{ menuItemData.name }}</p>
-                      <div
-                        cdkDropList
-                        [cdkDropListData]="menuItemData.value"
-                        (cdkDropListDropped)="drop($event)"
-                      >
-                        @for (kpi of menuItemData.value; track $index) {
-                          <div class="kpi" cdkDrag>
-                            <p>{{ kpi }}</p>
-                          </div>
-                        }
+        <div
+          cdkDropList
+          [cdkDropListData]="item.value"
+          (cdkDropListDropped)="drop($event)"
+          [id]="item.name"
+        >
+          @for (menuItem of item.value; track $index) {
+            @if (typeof menuItem !== 'string') {
+              <div class="menu-item" cdkDrag>
+                <p>{{ menuItem.name }}</p>
+                <div
+                  cdkDropList
+                  [cdkDropListData]="menuItem.value"
+                  (cdkDropListDropped)="drop($event)"
+                  [id]="menuItem.name"
+                >
+                  @for (menuItemData of menuItem.value; track $index) {
+                    @if (
+                      typeof menuItemData !== 'string' && menuItemData?.type == 'KPI_GROUP'
+                    ) {
+                      <div class="kpi-group" cdkDrag>
+                        <p>{{ menuItemData.name }}</p>
+                        <div
+                          cdkDropList
+                          [cdkDropListData]="menuItemData.value"
+                          (cdkDropListDropped)="drop($event)"
+                          [id]="menuItemData.name"
+                        >
+                          @for (kpi of menuItemData.value; track $index) {
+                            <div class="kpi" cdkDrag>
+                              <p>{{ kpi }}</p>
+                            </div>
+                          }
+                        </div>
                       </div>
-                    </div>
-                  } @else {
-                    <div class="kpi" cdkDrag>
-                      <p>{{ menuItemData }}</p>
-                    </div>
+                    } @else {
+                      <div class="kpi" cdkDrag>
+                        <p>{{ menuItemData }}</p>
+                      </div>
+                    }
                   }
-                }
+                </div>
               </div>
-            </div>
+            }
           }
-        }
+        </div>
       </div>
     }
   }
