@@ -1,0 +1,92 @@
+.container {
+  padding: 24px;
+  width: 400px;
+  margin: 0 auto;
+  height: 100%;
+  overflow: auto;
+}
+
+/* Base styles for the menu container */
+.menu-item-group {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.menu-item-group > p {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-bottom: 0.75rem;
+  color: #2c3e50;
+  border-bottom: 1px solid #dee2e6;
+  padding-bottom: 0.5rem;
+}
+
+/* Menu item styles */
+.menu-item {
+  margin: 0.75rem 0;
+  padding: 0.75rem;
+  background-color: white;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.menu-item > p {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #34495e;
+}
+
+/* KPI group styles */
+.kpi-group {
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  background-color: #f1f8ff;
+  border-left: 3px solid #4a90e2;
+  border-radius: 4px;
+}
+
+/* Consistent KPI styles regardless of parent */
+.kpi {
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  color: #495057;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.kpi p {
+  margin: 0;
+}
+
+/* Remove extra margin when KPI is inside KPI group */
+.kpi-group .kpi {
+  margin-left: 0;
+}
+
+/* Hover effects for interactivity */
+.menu-item:hover,
+.kpi-group:hover {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  transition: box-shadow 0.2s ease;
+}
+
+.kpi:hover {
+  background-color: #e9ecef;
+  transition: background-color 0.2s ease;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .menu-item-group {
+    padding: 0.75rem;
+  }
+
+  .menu-item {
+    padding: 0.5rem;
+  }
+}
