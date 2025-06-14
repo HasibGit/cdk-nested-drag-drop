@@ -1,91 +1,97 @@
-<h2 style="text-align: center">Angular CDK Nested Drag & Drop</h2>
+<!-- example-1.html -->
+<div class="container">
+  <h1>{{ title }}</h1>
 
-<div class="container" [nxtSortablejs]="data">
-  @for (item of data; track $index) {
-    @if (item?.type == "MENU_ITEM") {
-      <div class="menu-item">
-        <p>{{ item.name }}</p>
+  <div class="menu-container" [nxtSortablejs]="data" [config]="normalOptions">
+    <div class="menu-item" *ngFor="let item of data">
+      <!-- Menu Item Group -->
+      <div *ngIf="item.type === 'MENU_ITEM_GROUP'" class="menu-group">
+        <div class="menu-group-header">
+          <h3>{{ item.name }}</h3>
+        </div>
 
         <div
-          [nxtSortablejs]="isArray(item.value) ? toArray(item.value) : []"
+          class="menu-group-content"
+          [nxtSortablejs]="item.value"
           [config]="normalOptions"
         >
-          @for (menuItemData of item.value; track $index) {
-            @if (
-              typeof menuItemData !== 'string' && menuItemData?.type == 'KPI_GROUP'
-            ) {
-              <div class="kpi-group">
-                <p>{{ menuItemData.name }}</p>
-                <div
-                  [nxtSortablejs]="
-                    isArray(menuItemData.value)
-                      ? toArray(menuItemData.value)
-                      : []
-                  "
-                  [config]="normalOptions"
-                >
-                  @for (kpi of menuItemData.value; track $index) {
-                    <div class="kpi">
-                      <p>{{ kpi }}</p>
+          <div *ngFor="let menuItem of item.value" class="menu-single-item">
+            <div class="menu-item-header">
+              <h4>{{ menuItem.name }}</h4>
+            </div>
+
+            <div
+              class="kpi-container"
+              [nxtSortablejs]="menuItem.value"
+              [config]="normalOptions"
+            >
+              <div *ngFor="let kpiItem of menuItem.value" class="kpi-item">
+                <!-- KPI Group -->
+                <div *ngIf="kpiItem.type === 'KPI_GROUP'" class="kpi-group">
+                  <div class="kpi-group-header">
+                    <h5>{{ kpiItem.name }}</h5>
+                  </div>
+
+                  <div
+                    class="kpi-group-content"
+                    [nxtSortablejs]="kpiItem.value"
+                    [config]="normalOptions"
+                  >
+                    <div
+                      *ngFor="let kpi of kpiItem.value"
+                      class="kpi-single-item"
+                    >
+                      {{ kpi.name }}
                     </div>
-                  }
+                  </div>
+                </div>
+
+                <!-- Single KPI -->
+                <div *ngIf="kpiItem.type === 'KPI'" class="kpi-single-item">
+                  {{ kpiItem.name }}
                 </div>
               </div>
-            } @else {
-              <div class="kpi">
-                <p>{{ menuItemData }}</p>
-              </div>
-            }
-          }
+            </div>
+          </div>
         </div>
       </div>
-    } @else {
-      <div class="menu-item-group">
-        <p>{{ item.name }}</p>
-        <div [nxtSortablejs]="isArray(item.value) ? toArray(item.value) : []">
-          @for (menuItem of item.value; track $index) {
-            @if (typeof menuItem !== 'string') {
-              <div class="menu-item">
-                <p>{{ menuItem.name }}</p>
-                <div
-                  [nxtSortablejs]="
-                    isArray(menuItem.value) ? toArray(menuItem.value) : []
-                  "
-                  [config]="normalOptions"
-                >
-                  @for (menuItemData of menuItem.value; track $index) {
-                    @if (
-                      typeof menuItemData !== 'string' && menuItemData?.type == 'KPI_GROUP'
-                    ) {
-                      <div class="kpi-group">
-                        <p>{{ menuItemData.name }}</p>
-                        <div
-                          [nxtSortablejs]="
-                            isArray(menuItemData.value)
-                              ? toArray(menuItemData.value)
-                              : []
-                          "
-                          [config]="normalOptions"
-                        >
-                          @for (kpi of menuItemData.value; track $index) {
-                            <div class="kpi">
-                              <p>{{ kpi }}</p>
-                            </div>
-                          }
-                        </div>
-                      </div>
-                    } @else {
-                      <div class="kpi">
-                        <p>{{ menuItemData }}</p>
-                      </div>
-                    }
-                  }
+
+      <!-- Single Menu Item -->
+      <div *ngIf="item.type === 'MENU_ITEM'" class="menu-single-item">
+        <div class="menu-item-header">
+          <h3>{{ item.name }}</h3>
+        </div>
+
+        <div
+          class="kpi-container"
+          [nxtSortablejs]="item.value"
+          [config]="normalOptions"
+        >
+          <div *ngFor="let kpiItem of item.value" class="kpi-item">
+            <!-- KPI Group -->
+            <div *ngIf="kpiItem.type === 'KPI_GROUP'" class="kpi-group">
+              <div class="kpi-group-header">
+                <h5>{{ kpiItem.name }}</h5>
+              </div>
+
+              <div
+                class="kpi-group-content"
+                [nxtSortablejs]="kpiItem.value"
+                [config]="normalOptions"
+              >
+                <div *ngFor="let kpi of kpiItem.value" class="kpi-single-item">
+                  {{ kpi.name }}
                 </div>
               </div>
-            }
-          }
+            </div>
+
+            <!-- Single KPI -->
+            <div *ngIf="kpiItem.type === 'KPI'" class="kpi-single-item">
+              {{ kpiItem.name }}
+            </div>
+          </div>
         </div>
       </div>
-    }
-  }
+    </div>
+  </div>
 </div>
