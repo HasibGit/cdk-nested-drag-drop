@@ -1,32 +1,21 @@
-<div cdkDropListGroup>
+<div>
   <div class="example-container">
     <h2>To do</h2>
 
-    <div
-      cdkDropList
-      [cdkDropListData]="todo"
-      class="example-list"
-      (cdkDropListDropped)="drop($event)"
-      [cdkDropListConnectedTo]="dls"
-    >
-      <div class="example-box" *ngFor="let item of todo" cdkDrag>
+    <div class="example-list" [nxtSortablejs]="todo" [config]="normalOptions">
+      <div class="example-box" *ngFor="let item of todo">
         <div *ngIf="!isArray(item); else arrayView">{{ item }}</div>
         <ng-template #arrayView>
           <div class="example-container">
             <div
-              cdkDropList
-              [cdkDropListData]="item"
               class="example-list"
-              (cdkDropListDropped)="drop($event)"
-              [cdkDropListConnectedTo]="dls"
+              [nxtSortablejs]="isArray(item) ? toArray(item) : []"
+              [config]="normalOptions"
             >
               <ng-container *ngIf="isArray(item)">
                 <div
                   class="example-box"
                   *ngFor="let innerItem of toArray(item)"
-                  cdkDrag
-                  (cdkDragEntered)="onDragEntered($event)"
-                  (cdkDragStarted)="onDragStarted($event)"
                 >
                   {{ innerItem }}
                 </div>

@@ -12,10 +12,12 @@ import {
 } from '@angular/cdk/drag-drop';
 import { asapScheduler, asyncScheduler } from 'rxjs';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
+import { SortablejsModule } from 'nxt-sortablejs';
+import { Options } from 'sortablejs';
 
 @Component({
   selector: 'app-example-2',
-  imports: [DragDropModule, CommonModule, NgIf, NgFor],
+  imports: [DragDropModule, CommonModule, NgIf, NgFor, SortablejsModule],
   templateUrl: './example-2.html',
   styleUrl: './example-2.scss',
 })
@@ -28,6 +30,10 @@ export class Example2 {
     'Go home',
     'Fall asleep',
   ];
+
+  normalOptions: Options = {
+    group: 'normal-group',
+  };
 
   @ViewChildren(CdkDropList)
   private dlq: QueryList<CdkDropList>;
