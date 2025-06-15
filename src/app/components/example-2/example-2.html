@@ -2,20 +2,23 @@
   <div class="example-container">
     <h2>To do</h2>
 
-    <div class="example-list" [nxtSortablejs]="todo" [config]="normalOptions">
-      <div class="example-box" *ngFor="let item of todo">
+    <div class="example-list" id="root-list">
+      <div
+        class="example-box"
+        *ngFor="let item of todo; index as idx; trackBy: trackByIdx"
+      >
         <div *ngIf="!isArray(item); else arrayView">{{ item }}</div>
         <ng-template #arrayView>
           <div class="example-container">
-            <div
-              class="example-list"
-              [nxtSortablejs]="isArray(item) ? toArray(item) : []"
-              [config]="normalOptions"
-            >
+            <div class="example-list" [id]="'sublist-' + idx">
               <ng-container *ngIf="isArray(item)">
                 <div
                   class="example-box"
-                  *ngFor="let innerItem of toArray(item)"
+                  *ngFor="
+                    let innerItem of toArray(item);
+                    index as i;
+                    trackBy: trackByIdx
+                  "
                 >
                   <div *ngIf="!isArray(innerItem); else innerArrayView">
                     {{ innerItem }}
@@ -24,15 +27,16 @@
                     <div class="example-container">
                       <div
                         class="example-list"
-                        [nxtSortablejs]="
-                          isArray(innerItem) ? toArray(innerItem) : []
-                        "
-                        [config]="normalOptions"
+                        [id]="'sublist-' + idx + '-' + i"
                       >
                         <ng-container *ngIf="isArray(innerItem)">
                           <div
                             class="example-box"
-                            *ngFor="let deeperItem of toArray(innerItem)"
+                            *ngFor="
+                              let deeperItem of toArray(innerItem);
+                              index as j;
+                              trackBy: trackByIdx
+                            "
                           >
                             <div
                               *ngIf="
@@ -46,18 +50,14 @@
                               <div class="example-container">
                                 <div
                                   class="example-list"
-                                  [nxtSortablejs]="
-                                    isArray(deeperItem)
-                                      ? toArray(deeperItem)
-                                      : []
-                                  "
-                                  [config]="normalOptions"
+                                  [id]="'sublist-' + idx + '-' + i + '-' + j"
                                 >
                                   <ng-container *ngIf="isArray(deeperItem)">
                                     <div
                                       class="example-box"
                                       *ngFor="
-                                        let deepestItem of toArray(deeperItem)
+                                        let deepestItem of toArray(deeperItem);
+                                        trackBy: trackByIdx
                                       "
                                     >
                                       {{ deepestItem }}
